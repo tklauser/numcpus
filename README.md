@@ -4,9 +4,9 @@
 [![Go Report Card][3]][4]
 [![GoDoc][5]][6]
 
-Get the number of CPUs (online, offline, present or possible) on a Linux
-system. The information is retrieved by reading the CPU topology files in
-`/sys/devices/system/cpu`.
+Get the number of CPUs (online, offline, present, possible or kernel maximum)
+on a Linux system. The information is retrieved by reading the CPU topology
+files in `/sys/devices/system/cpu`.
 
 ## Usage
 
