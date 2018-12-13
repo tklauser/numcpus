@@ -27,4 +27,10 @@ func TestParsCPURange(t *testing.T) {
 			t.Errorf("parseCPURange(%s) = %d, expected %d", tc.cpus, n, tc.n)
 		}
 	}
+
+	str := "invalid"
+	_, err := parseCPURange(str)
+	if err == nil {
+		t.Errorf("parseCPURange(%s) unexpectedly suceeded", str)
+	}
 }
