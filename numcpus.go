@@ -80,3 +80,9 @@ func GetPossible() (int, error) {
 func GetPresent() (int, error) {
 	return readCPURange("present")
 }
+
+// GetKernelMax returns the maximum number of CPUs allowed by the kernel
+// configuration.
+func GetKernelMax() (int, error) {
+	return readCPURange("kernel_max")
+}
