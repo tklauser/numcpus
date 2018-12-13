@@ -59,12 +59,20 @@ func parseCPURange(cpus string) (int, error) {
 	return n, nil
 }
 
-// GetOffline returns the number of offline CPUs.
+// GetKernelMax returns the maximum number of CPUs allowed by the kernel
+// configuration.
+func GetKernelMax() (int, error) {
+	return readCPURange("kernel_max")
+}
+
+// GetOffline returns the number of offline CPUs, i.e. CPUs that are not online
+// because they have been hotplugged off or exceed the limit of CPUs allowed by
+// the kernel configuration (see GetKernelMax).
 func GetOffline() (int, error) {
 	return readCPURange("offline")
 }
 
-// GetOnline returns the number of online CPUs.
+// GetOnline returns the number of CPUs that are online and being scheduled.
 func GetOnline() (int, error) {
 	return readCPURange("online")
 }
@@ -76,13 +84,7 @@ func GetPossible() (int, error) {
 	return readCPURange("possible")
 }
 
-// GetPresent returns the number of present CPUs.
+// GetPresent returns the number of CPUs present in the system.
 func GetPresent() (int, error) {
 	return readCPURange("present")
-}
-
-// GetKernelMax returns the maximum number of CPUs allowed by the kernel
-// configuration.
-func GetKernelMax() (int, error) {
-	return readCPURange("kernel_max")
 }
