@@ -45,6 +45,6 @@ func TestParseCPURange(t *testing.T) {
 	str := "invalid"
 	_, err := parseCPURange(str)
 	if err == nil {
-		t.Errorf("parseCPURange(%s) unexpectedly suceeded", str)
+		t.Errorf("parseCPURange(%s) unexpectedly succeeded", str)
 	}
 }
