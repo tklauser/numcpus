@@ -12,24 +12,33 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+// +build dragonfly freebsd netbsd openbsd
+
 package numcpus
 
 import (
-	"errors"
+	"fmt"
+	"runtime"
 
 	"golang.org/x/sys/unix"
 )
 
 func getKernelMax() (int, error) {
-	return 0, errors.New("getKernelMax is not supported on freebsd")
+	return 0, fmt.Errorf("GetKernelMax is not supported on %s", runtime.GOOS)
 }
 
 func getOffline() (int, error) {
-	return 0, errors.New("getOffline is not supported on freebsd")
+	return 0, fmt.Errorf("GetOffline is not supported on %s", runtime.GOOS)
 }
 
 func getOnline() (int, error) {
-	n, err := unix.SysctlUint32("hw.ncpu")
+	var n int
+	var err error
+	if runtime.GOOS == "netbsd" {
+		n, err = unix.SysctlUint32("hw.ncpuonline")
+	} else {
+		n, err = unix.SysctlUint32("hw.ncpu")
+	}
 	return int(n), err
 }
 

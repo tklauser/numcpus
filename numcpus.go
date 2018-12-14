@@ -15,14 +15,15 @@
 package numcpus
 
 // GetKernelMax returns the maximum number of CPUs allowed by the kernel
-// configuration.
+// configuration. This function is only supported on Linux systems.
 func GetKernelMax() (int, error) {
 	return getKernelMax()
 }
 
 // GetOffline returns the number of offline CPUs, i.e. CPUs that are not online
 // because they have been hotplugged off or exceed the limit of CPUs allowed by
-// the kernel configuration (see GetKernelMax).
+// the kernel configuration (see GetKernelMax). This function is only supported
+// on Linux systems.
 func GetOffline() (int, error) {
 	return getOffline()
 }
@@ -34,7 +35,6 @@ func GetOnline() (int, error) {
 
 // GetPossible returns the number of possible CPUs, i.e. CPUs that
 // have been allocated resources and can be brought online if they are present.
-// The number is retrieved by parsing /sys/device/system/cpu/possible.
 func GetPossible() (int, error) {
 	return getPossible()
 }
