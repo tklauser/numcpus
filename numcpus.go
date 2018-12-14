@@ -12,79 +12,34 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// +build linux
-
 package numcpus
-
-import (
-	"io/ioutil"
-	"path/filepath"
-	"strconv"
-	"strings"
-)
-
-const (
-	sysfsCPUBasePath = "/sys/devices/system/cpu"
-)
-
-func readCPURange(file string) (int, error) {
-	buf, err := ioutil.ReadFile(filepath.Join(sysfsCPUBasePath, file))
-	if err != nil {
-		return 0, err
-	}
-	return parseCPURange(strings.Trim(string(buf), "\n "))
-}
-
-func parseCPURange(cpus string) (int, error) {
-	n := int(0)
-	for _, cpuRange := range strings.Split(cpus, ",") {
-		if len(cpuRange) == 0 {
-			continue
-		}
-		rangeOp := strings.SplitN(cpuRange, "-", 2)
-		first, err := strconv.ParseUint(rangeOp[0], 10, 32)
-		if err != nil {
-			return 0, err
-		}
-		if len(rangeOp) == 1 {
-			n++
-			continue
-		}
-		last, err := strconv.ParseUint(rangeOp[1], 10, 32)
-		if err != nil {
-			return 0, err
-		}
-		n += int(last - first + 1)
-	}
-	return n, nil
-}
 
 // GetKernelMax returns the maximum number of CPUs allowed by the kernel
 // configuration.
 func GetKernelMax() (int, error) {
-	return readCPURange("kernel_max")
+	return getKernelMax()
 }
 
 // GetOffline returns the number of offline CPUs, i.e. CPUs that are not online
 // because they have been hotplugged off or exceed the limit of CPUs allowed by
 // the kernel configuration (see GetKernelMax).
 func GetOffline() (int, error) {
-	return readCPURange("offline")
+	return getOffline()
 }
 
 // GetOnline returns the number of CPUs that are online and being scheduled.
 func GetOnline() (int, error) {
-	return readCPURange("online")
+	return getOnline()
 }
 
 // GetPossible returns the number of possible CPUs, i.e. CPUs that
 // have been allocated resources and can be brought online if they are present.
 // The number is retrieved by parsing /sys/device/system/cpu/possible.
 func GetPossible() (int, error) {
-	return readCPURange("possible")
+	return getPossible()
 }
 
 // GetPresent returns the number of CPUs present in the system.
 func GetPresent() (int, error) {
-	return readCPURange("present")
+	return getPresent()
 }
