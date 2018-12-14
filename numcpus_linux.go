@@ -58,7 +58,15 @@ func parseCPURange(cpus string) (int, error) {
 }
 
 func getKernelMax() (int, error) {
-	return readCPURange("kernel_max")
+	buf, err := ioutil.ReadFile(filepath.Join(sysfsCPUBasePath, "kernel_max"))
+	if err != nil {
+		return 0, err
+	}
+	n, err := strconv.ParseInt(strings.Trim(string(buf), "\n "), 10, 32)
+	if err != nil {
+		return 0, err
+	}
+	return int(n), nil
 }
 
 func getOffline() (int, error) {
