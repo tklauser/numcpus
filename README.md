@@ -5,8 +5,10 @@
 [![GoDoc][5]][6]
 
 Get the number of CPUs (online, offline, present, possible or kernel maximum)
-on a Linux system. The information is retrieved by reading the CPU topology
-files in `/sys/devices/system/cpu`.
+on a Linux or FreeBSD system.
+
+On Linux, the information is retrieved by reading the CPU topology files in
+`/sys/devices/system/cpu`. On FreeBSD, not all functions are supported.
 
 ## Usage
 
