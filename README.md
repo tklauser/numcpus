@@ -4,8 +4,10 @@
 [![Go Report Card][3]][4]
 [![GoDoc][5]][6]
 
-Get the number of CPUs (online, offline, present, possible or kernel maximum)
-on a Linux, FreeBSD, NetBSD, OpenBSD or DragonflyBSD system.
+Package numcpus provides information about the number of CPU.
+
+It gets the number of CPUs (online, offline, present, possible or kernel
+maximum) on a Linux, FreeBSD, NetBSD, OpenBSD or DragonflyBSD system.
 
 On Linux, the information is retrieved by reading the corresponding CPU
 topology files in `/sys/devices/system/cpu`.
