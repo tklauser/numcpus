@@ -32,7 +32,7 @@ func getOffline() (int, error) {
 }
 
 func getOnline() (int, error) {
-	var n int
+	var n uint32
 	var err error
 	if runtime.GOOS == "netbsd" {
 		n, err = unix.SysctlUint32("hw.ncpuonline")
