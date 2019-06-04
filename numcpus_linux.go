@@ -21,9 +21,7 @@ import (
 	"strings"
 )
 
-const (
-	sysfsCPUBasePath = "/sys/devices/system/cpu"
-)
+const sysfsCPUBasePath = "/sys/devices/system/cpu"
 
 func readCPURange(file string) (int, error) {
 	buf, err := ioutil.ReadFile(filepath.Join(sysfsCPUBasePath, file))
