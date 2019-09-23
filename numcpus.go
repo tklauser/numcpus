@@ -15,12 +15,14 @@
 // Package numcpus provides information about the number of CPU.
 //
 // It gets the number of CPUs (online, offline, present, possible or kernel
-// maximum) on a Linux, FreeBSD, NetBSD, OpenBSD or DragonflyBSD system.
+// maximum) on a Linux, Darwin, FreeBSD, NetBSD, OpenBSD or DragonflyBSD
+// system.
 //
 // On Linux, the information is retrieved by reading the corresponding CPU
 // topology files in /sys/devices/system/cpu.
 //
-// Not all functions are supported on FreeBSD, NetBSD, OpenBSD and DragonflyBSD.
+// Not all functions are supported on Darwin, FreeBSD, NetBSD, OpenBSD and
+// DragonflyBSD.
 package numcpus
 
 // GetKernelMax returns the maximum number of CPUs allowed by the kernel

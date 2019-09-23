@@ -8,13 +8,13 @@
 Package numcpus provides information about the number of CPU.
 
 It gets the number of CPUs (online, offline, present, possible or kernel
-maximum) on a Linux, macOS (Darwin), FreeBSD, NetBSD, OpenBSD or DragonflyBSD
+maximum) on a Linux, Darwin, FreeBSD, NetBSD, OpenBSD or DragonflyBSD
 system.
 
 On Linux, the information is retrieved by reading the corresponding CPU
 topology files in `/sys/devices/system/cpu`.
 
-Not all functions are supported on macOS, FreeBSD, NetBSD, OpenBSD and
+Not all functions are supported on Darwin, FreeBSD, NetBSD, OpenBSD and
 DragonflyBSD.
 
 ## Usage
