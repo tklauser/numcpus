@@ -41,7 +41,6 @@ func main() {
 		fmt.Fprintf(os.Stderr, "GetPossible: %v\n", err)
 	}
 	fmt.Printf("possible CPUs: %v\n", possible)
-
 }
 ```
 
