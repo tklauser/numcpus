@@ -1,4 +1,4 @@
-// Copyright 2019 Tobias Klauser
+// Copyright 2019-2020 Tobias Klauser
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,32 +21,50 @@ import (
 	"github.com/tklauser/numcpus"
 )
 
-func TestNumcpus(t *testing.T) {
-	n, err := numcpus.GetOffline()
-	if err != nil && runtime.GOOS == "linux" {
-		t.Fatalf("GetOffline: %v", err)
+func TestGetKernelMax(t *testing.T) {
+	n, err := numcpus.GetKernelMax()
+	if err != nil {
+		switch runtime.GOOS {
+		case "linux":
+			t.Fatalf("GetKernelMax: %v", err)
+		default:
+			t.Skipf("GetKernelMax not supported on %s", runtime.GOOS)
+		}
 	}
 	t.Logf("KernelMax = %v", n)
+}
 
-	n, err = numcpus.GetOffline()
-	if err != nil && runtime.GOOS == "linux" {
-		t.Fatalf("GetOffline: %v", err)
+func TestGetOffline(t *testing.T) {
+	n, err := numcpus.GetOffline()
+	if err != nil {
+		switch runtime.GOOS {
+		case "linux":
+			t.Fatalf("GetOffline: %v", err)
+		default:
+			t.Skipf("GetOffline not supported on %s", runtime.GOOS)
+		}
 	}
 	t.Logf("Offline = %v", n)
+}
 
-	n, err = numcpus.GetOnline()
+func TestGetOnline(t *testing.T) {
+	n, err := numcpus.GetOnline()
 	if err != nil {
 		t.Fatalf("GetOnline: %v", err)
 	}
 	t.Logf("Online = %v", n)
+}
 
-	n, err = numcpus.GetPossible()
+func TestGetPossible(t *testing.T) {
+	n, err := numcpus.GetPossible()
 	if err != nil {
 		t.Fatalf("GetPossible: %v", err)
 	}
 	t.Logf("Possible = %v", n)
+}
 
-	n, err = numcpus.GetPresent()
+func TestGetPresent(t *testing.T) {
+	n, err := numcpus.GetPresent()
 	if err != nil {
 		t.Fatalf("GetPresent: %v", err)
 	}
