@@ -46,7 +46,7 @@ func ExampleGetPossible() {
 }
 
 func ExampleGetPresent() {
-	present, err := numcpus.GetPossible()
+	present, err := numcpus.GetPresent()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "GetPresent: %v\n", err)
 	}
