@@ -1,8 +1,8 @@
 # numcpus
 
+[![Go Reference](https://pkg.go.dev/badge/github.com/tklauser/numcpus.svg)](https://pkg.go.dev/github.com/tklauser/numcpus)
 [![GitHub Actions Status][1]][2]
 [![Go Report Card][3]][4]
-[![GoDoc][5]][6]
 
 Package numcpus provides information about the number of CPU.
 
@@ -52,5 +52,3 @@ func main() {
 [2]: https://github.com/tklauser/numcpus
 [3]: https://goreportcard.com/badge/github.com/tklauser/numcpus
 [4]: https://goreportcard.com/report/github.com/tklauser/numcpus
-[5]: https://godoc.org/github.com/tklauser/numcpus?status.svg
-[6]: https://godoc.org/github.com/tklauser/numcpus
