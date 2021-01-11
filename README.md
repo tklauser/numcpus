@@ -48,7 +48,7 @@ func main() {
 * [Linux kernel sysfs documenation for CPU attributes](https://www.kernel.org/doc/Documentation/ABI/testing/sysfs-devices-system-cpu)
 * [Linux kernel CPU topology documentation](https://www.kernel.org/doc/Documentation/cputopology.txt)
 
-[1]: https://github.com/tklauser/numcpus/workflows/Test/badge.svg
+[1]: https://github.com/tklauser/numcpus/workflows/Tests/badge.svg
 [2]: https://github.com/tklauser/numcpus
 [3]: https://goreportcard.com/badge/github.com/tklauser/numcpus
 [4]: https://goreportcard.com/report/github.com/tklauser/numcpus
