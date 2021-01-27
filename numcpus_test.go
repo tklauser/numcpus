@@ -15,11 +15,38 @@
 package numcpus_test
 
 import (
+	"bytes"
+	"os/exec"
 	"runtime"
+	"strconv"
+	"strings"
 	"testing"
 
 	"github.com/tklauser/numcpus"
 )
+
+func testGetconf(t *testing.T, got int, name, getconfWhich string) {
+	getconf, err := exec.LookPath("getconf")
+	if err != nil {
+		t.Skipf("getconf not found in PATH: %v", err)
+	}
+
+	cmd := exec.Command(getconf, getconfWhich)
+	var out bytes.Buffer
+	cmd.Stdout = &out
+	if err := cmd.Run(); err != nil {
+		t.Skipf("failed to invoke getconf: %v", err)
+	}
+
+	want, err := strconv.ParseInt(strings.TrimSpace(out.String()), 10, 64)
+	if err != nil {
+		t.Skipf("failed to parse getconf output: %v", err)
+	}
+
+	if got != int(want) {
+		t.Errorf("%s returned %v, want %v (getconf %s)", name, got, want, getconfWhich)
+	}
+}
 
 func TestGetKernelMax(t *testing.T) {
 	n, err := numcpus.GetKernelMax()
@@ -49,6 +76,8 @@ func TestGetOnline(t *testing.T) {
 		t.Fatalf("GetOnline: %v", err)
 	}
 	t.Logf("Online = %v", n)
+
+	testGetconf(t, n, "GetOnline", "_NPROCESSORS_ONLN")
 }
 
 func TestGetPossible(t *testing.T) {
@@ -69,4 +98,6 @@ func TestGetPresent(t *testing.T) {
 		t.Fatalf("GetPresent: %v", err)
 	}
 	t.Logf("Present = %v", n)
+
+	testGetconf(t, n, "GetPresent", "_NPROCESSORS_CONF")
 }
