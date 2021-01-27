@@ -25,6 +25,11 @@
 // DragonflyBSD.
 package numcpus
 
+import "errors"
+
+// ErrNotSupported is the error returned when the function is not supported.
+var ErrNotSupported = errors.New("function not supported")
+
 // GetKernelMax returns the maximum number of CPUs allowed by the kernel
 // configuration. This function is only supported on Linux systems.
 func GetKernelMax() (int, error) {
