@@ -1,9 +1,8 @@
 # numcpus
 
 [![Go Reference](https://pkg.go.dev/badge/github.com/tklauser/numcpus.svg)](https://pkg.go.dev/github.com/tklauser/numcpus)
-[![GitHub Build Action Status][1]][2]
-[![GitHub Test Action Status][3]][4]
-[![Go Report Card][5]][6]
+[![GitHub Action Status](https://github.com/tklauser/numcpus/workflows/Tests/badge.svg)](https://github.com/tklauser/numcpus/actions?query=workflow%3ATests)
+[![Go Report Card](https://goreportcard.com/badge/github.com/tklauser/numcpus)](https://goreportcard.com/report/github.com/tklauser/numcpus)
 
 Package numcpus provides information about the number of CPU.
 
@@ -48,10 +47,3 @@ func main() {
 
 * [Linux kernel sysfs documenation for CPU attributes](https://www.kernel.org/doc/Documentation/ABI/testing/sysfs-devices-system-cpu)
 * [Linux kernel CPU topology documentation](https://www.kernel.org/doc/Documentation/cputopology.txt)
-
-[1]: https://github.com/tklauser/numcpus/workflows/Build/badge.svg
-[2]: https://github.com/tklauser/numcpus/actions?query=workflow%3ABuild
-[3]: https://github.com/tklauser/numcpus/workflows/Tests/badge.svg
-[4]: https://github.com/tklauser/numcpus/actions?query=workflow%3ATests
-[5]: https://goreportcard.com/badge/github.com/tklauser/numcpus
-[6]: https://goreportcard.com/report/github.com/tklauser/numcpus
