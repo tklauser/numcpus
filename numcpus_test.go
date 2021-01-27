@@ -23,33 +23,29 @@ import (
 
 func TestGetKernelMax(t *testing.T) {
 	n, err := numcpus.GetKernelMax()
-	if err != nil {
-		switch runtime.GOOS {
-		case "linux":
-			t.Fatalf("GetKernelMax: %v", err)
-		default:
-			t.Skipf("GetKernelMax not supported on %s", runtime.GOOS)
-		}
+	if err == numcpus.ErrNotSupported {
+		t.Skipf("GetKernelMax not supported on %s", runtime.GOOS)
+	} else if err != nil {
+		t.Fatalf("GetKernelMax: %v", err)
 	}
 	t.Logf("KernelMax = %v", n)
 }
 
 func TestGetOffline(t *testing.T) {
 	n, err := numcpus.GetOffline()
-	if err != nil {
-		switch runtime.GOOS {
-		case "linux":
-			t.Fatalf("GetOffline: %v", err)
-		default:
-			t.Skipf("GetOffline not supported on %s", runtime.GOOS)
-		}
+	if err == numcpus.ErrNotSupported {
+		t.Skipf("GetOffline not supported on %s", runtime.GOOS)
+	} else if err != nil {
+		t.Fatalf("GetOffline: %v", err)
 	}
 	t.Logf("Offline = %v", n)
 }
 
 func TestGetOnline(t *testing.T) {
 	n, err := numcpus.GetOnline()
-	if err != nil {
+	if err == numcpus.ErrNotSupported {
+		t.Skipf("GetOnline not supported on %s", runtime.GOOS)
+	} else if err != nil {
 		t.Fatalf("GetOnline: %v", err)
 	}
 	t.Logf("Online = %v", n)
@@ -57,7 +53,9 @@ func TestGetOnline(t *testing.T) {
 
 func TestGetPossible(t *testing.T) {
 	n, err := numcpus.GetPossible()
-	if err != nil {
+	if err == numcpus.ErrNotSupported {
+		t.Skipf("GetPossible not supported on %s", runtime.GOOS)
+	} else if err != nil {
 		t.Fatalf("GetPossible: %v", err)
 	}
 	t.Logf("Possible = %v", n)
@@ -65,7 +63,9 @@ func TestGetPossible(t *testing.T) {
 
 func TestGetPresent(t *testing.T) {
 	n, err := numcpus.GetPresent()
-	if err != nil {
+	if err == numcpus.ErrNotSupported {
+		t.Skipf("GetPresent not supported on %s", runtime.GOOS)
+	} else if err != nil {
 		t.Fatalf("GetPresent: %v", err)
 	}
 	t.Logf("Present = %v", n)
