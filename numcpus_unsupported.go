@@ -1,4 +1,4 @@
-// Copyright 2018 Tobias Klauser
+// Copyright 2021 Tobias Klauser
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,15 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// +build darwin dragonfly freebsd netbsd openbsd
+// +build !darwin,!dragonfly,!freebsd,!linux,!netbsd,!openbsd
 
 package numcpus
-
-import (
-	"runtime"
-
-	"golang.org/x/sys/unix"
-)
 
 func getKernelMax() (int, error) {
 	return 0, ErrNotSupported
@@ -31,26 +25,13 @@ func getOffline() (int, error) {
 }
 
 func getOnline() (int, error) {
-	var n uint32
-	var err error
-	switch runtime.GOOS {
-	case "netbsd", "openbsd":
-		n, err = unix.SysctlUint32("hw.ncpuonline")
-		if err != nil || n < 0 {
-			n, err = unix.SysctlUint32("hw.ncpu")
-		}
-	default:
-		n, err = unix.SysctlUint32("hw.ncpu")
-	}
-	return int(n), err
+	return 0, ErrNotSupported
 }
 
 func getPossible() (int, error) {
-	n, err := unix.SysctlUint32("hw.ncpu")
-	return int(n), err
+	return 0, ErrNotSupported
 }
 
 func getPresent() (int, error) {
-	n, err := unix.SysctlUint32("hw.ncpu")
-	return int(n), err
+	return 0, ErrNotSupported
 }
