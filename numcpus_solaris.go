@@ -16,28 +16,7 @@
 
 package numcpus
 
-import (
-	"syscall"
-	"unsafe"
-)
-
-// TODO: remove sysconf wrapper once https://golang.org/cl/286593 is merged and x/sys updated.
-
-//go:cgo_import_dynamic libc_sysconf sysconf "libc.so"
-//go:linkname procSysconf libc_sysconf
-
-var procSysconf uintptr
-
-//go:linkname sysvicall6 syscall.sysvicall6
-func sysvicall6(trap, nargs, a1, a2, a3, a4, a5, a6 uintptr) (r1, r2 uintptr, err syscall.Errno)
-
-func sysconf(name int) (int64, error) {
-	n, _, errno := sysvicall6(uintptr(unsafe.Pointer(&procSysconf)), 1, uintptr(name), 0, 0, 0, 0, 0)
-	if errno != 0 {
-		return -1, errno
-	}
-	return int64(n), nil
-}
+import "golang.org/x/sys/unix"
 
 // taken from /usr/include/sys/unistd.h
 const (
@@ -47,7 +26,7 @@ const (
 )
 
 func getKernelMax() (int, error) {
-	n, err := sysconf(_SC_NPROCESSORS_MAX)
+	n, err := unix.Sysconf(_SC_NPROCESSORS_MAX)
 	return int(n), err
 }
 
@@ -56,16 +35,16 @@ func getOffline() (int, error) {
 }
 
 func getOnline() (int, error) {
-	n, err := sysconf(_SC_NPROCESSORS_ONLN)
+	n, err := unix.Sysconf(_SC_NPROCESSORS_ONLN)
 	return int(n), err
 }
 
 func getPossible() (int, error) {
-	n, err := sysconf(_SC_NPROCESSORS_CONF)
+	n, err := unix.Sysconf(_SC_NPROCESSORS_CONF)
 	return int(n), err
 }
 
 func getPresent() (int, error) {
-	n, err := sysconf(_SC_NPROCESSORS_CONF)
+	n, err := unix.Sysconf(_SC_NPROCESSORS_CONF)
 	return int(n), err
 }
