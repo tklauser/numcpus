@@ -16,6 +16,7 @@ package numcpus_test
 
 import (
 	"bytes"
+	"errors"
 	"os/exec"
 	"runtime"
 	"strconv"
@@ -50,7 +51,7 @@ func testGetconf(t *testing.T, got int, name, getconfWhich string) {
 
 func TestGetKernelMax(t *testing.T) {
 	n, err := numcpus.GetKernelMax()
-	if err == numcpus.ErrNotSupported {
+	if errors.Is(err, numcpus.ErrNotSupported) {
 		t.Skipf("GetKernelMax not supported on %s", runtime.GOOS)
 	} else if err != nil {
 		t.Fatalf("GetKernelMax: %v", err)
@@ -60,7 +61,7 @@ func TestGetKernelMax(t *testing.T) {
 
 func TestGetOffline(t *testing.T) {
 	n, err := numcpus.GetOffline()
-	if err == numcpus.ErrNotSupported {
+	if errors.Is(err, numcpus.ErrNotSupported) {
 		t.Skipf("GetOffline not supported on %s", runtime.GOOS)
 	} else if err != nil {
 		t.Fatalf("GetOffline: %v", err)
@@ -70,7 +71,7 @@ func TestGetOffline(t *testing.T) {
 
 func TestGetOnline(t *testing.T) {
 	n, err := numcpus.GetOnline()
-	if err == numcpus.ErrNotSupported {
+	if errors.Is(err, numcpus.ErrNotSupported) {
 		t.Skipf("GetOnline not supported on %s", runtime.GOOS)
 	} else if err != nil {
 		t.Fatalf("GetOnline: %v", err)
@@ -82,7 +83,7 @@ func TestGetOnline(t *testing.T) {
 
 func TestGetPossible(t *testing.T) {
 	n, err := numcpus.GetPossible()
-	if err == numcpus.ErrNotSupported {
+	if errors.Is(err, numcpus.ErrNotSupported) {
 		t.Skipf("GetPossible not supported on %s", runtime.GOOS)
 	} else if err != nil {
 		t.Fatalf("GetPossible: %v", err)
@@ -92,7 +93,7 @@ func TestGetPossible(t *testing.T) {
 
 func TestGetPresent(t *testing.T) {
 	n, err := numcpus.GetPresent()
-	if err == numcpus.ErrNotSupported {
+	if errors.Is(err, numcpus.ErrNotSupported) {
 		t.Skipf("GetPresent not supported on %s", runtime.GOOS)
 	} else if err != nil {
 		t.Fatalf("GetPresent: %v", err)
