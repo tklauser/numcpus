@@ -27,6 +27,8 @@ import (
 )
 
 func testGetconf(t *testing.T, got int, name, getconfWhich string) {
+	t.Helper()
+
 	getconf, err := exec.LookPath("getconf")
 	if err != nil {
 		t.Skipf("getconf not found in PATH: %v", err)
