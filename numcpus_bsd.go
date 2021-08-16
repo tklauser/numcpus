@@ -23,6 +23,11 @@ import (
 	"golang.org/x/sys/unix"
 )
 
+func getConfigured() (int, error) {
+	n, err := unix.SysctlUint32("hw.ncpu")
+	return int(n), err
+}
+
 func getKernelMax() (int, error) {
 	return 0, ErrNotSupported
 }
