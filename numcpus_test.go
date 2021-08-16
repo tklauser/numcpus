@@ -101,6 +101,4 @@ func TestGetPresent(t *testing.T) {
 		t.Fatalf("GetPresent: %v", err)
 	}
 	t.Logf("Present = %v", n)
-
-	testGetconf(t, n, "GetPresent", "_NPROCESSORS_CONF")
 }
