@@ -51,6 +51,18 @@ func testGetconf(t *testing.T, got int, name, getconfWhich string) {
 	}
 }
 
+func TestGetConfigured(t *testing.T) {
+	n, err := numcpus.GetConfigured()
+	if errors.Is(err, numcpus.ErrNotSupported) {
+		t.Skipf("GetConfigured not supported on %s", runtime.GOOS)
+	} else if err != nil {
+		t.Fatalf("GetConfigured: %v", err)
+	}
+	t.Logf("Configured = %v", n)
+
+	testGetconf(t, n, "GetConfigured", "_NPROCESSORS_CONF")
+}
+
 func TestGetKernelMax(t *testing.T) {
 	n, err := numcpus.GetKernelMax()
 	if errors.Is(err, numcpus.ErrNotSupported) {
