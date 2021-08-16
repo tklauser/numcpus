@@ -37,7 +37,7 @@ func getOnline() (int, error) {
 	switch runtime.GOOS {
 	case "netbsd", "openbsd":
 		n, err = unix.SysctlUint32("hw.ncpuonline")
-		if err != nil || n < 0 {
+		if err != nil {
 			n, err = unix.SysctlUint32("hw.ncpu")
 		}
 	default:
