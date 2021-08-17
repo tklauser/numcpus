@@ -20,9 +20,19 @@ import (
 	"path/filepath"
 	"strconv"
 	"strings"
+
+	"golang.org/x/sys/unix"
 )
 
 const sysfsCPUBasePath = "/sys/devices/system/cpu"
+
+func getFromCPUAffinity() (int, error) {
+	var cpuSet unix.CPUSet
+	if err := unix.SchedGetaffinity(0, &cpuSet); err != nil {
+		return 0, err
+	}
+	return cpuSet.Count(), nil
+}
 
 func readCPURange(file string) (int, error) {
 	buf, err := ioutil.ReadFile(filepath.Join(sysfsCPUBasePath, file))
@@ -95,6 +105,9 @@ func getOffline() (int, error) {
 }
 
 func getOnline() (int, error) {
+	if n, err := getFromCPUAffinity(); err == nil {
+		return n, nil
+	}
 	return readCPURange("online")
 }
 

@@ -40,13 +40,30 @@ func TestParseCPURange(t *testing.T) {
 		}
 
 		if n != tc.n {
-			t.Errorf("parseCPURange(%s) = %d, expected %d", tc.cpus, n, tc.n)
+			t.Errorf("parseCPURange(%q) = %d, expected %d", tc.cpus, n, tc.n)
 		}
 	}
 
 	str := "invalid"
 	_, err := parseCPURange(str)
 	if err == nil {
-		t.Errorf("parseCPURange(%s) unexpectedly succeeded", str)
+		t.Errorf("parseCPURange(%q) unexpectedly succeeded", str)
+	}
+}
+
+func TestGetFromCPUAffinity(t *testing.T) {
+	nAffinity, err := getFromCPUAffinity()
+	if err != nil {
+		t.Fatalf("getFromCPUAffinity: %v", err)
+	}
+
+	cpus := "online"
+	nSysfs, err := readCPURange(cpus)
+	if err != nil {
+		t.Fatalf("readCPURange(%q): %v", cpus, err)
+	}
+
+	if nAffinity != nSysfs {
+		t.Errorf("getFromCPUAffinity() = %d, readCPURange(%q) = %d, want the same return value", nAffinity, cpus, nSysfs)
 	}
 }
