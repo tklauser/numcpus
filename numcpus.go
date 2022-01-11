@@ -12,18 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// Package numcpus provides information about the number of CPU.
+// Package numcpus provides information about the number of CPUs in the system.
 //
 // It gets the number of CPUs (online, offline, present, possible or kernel
-// maximum) Linux, Darwin, FreeBSD, NetBSD, OpenBSD, DragonflyBSD or
+// maximum) on Linux, Darwin, FreeBSD, NetBSD, OpenBSD, DragonflyBSD or
 // Solaris/Illumos systems.
 //
 // On Linux, the information is retrieved by reading the corresponding CPU
 // topology files in /sys/devices/system/cpu.
 //
+// On BSD systems, the information is retrieved using the hw.ncpu and
+// hw.ncpuonline sysctls, if supported.
+//
 // Not all functions are supported on Darwin, FreeBSD, NetBSD, OpenBSD,
-// DragonflyBSD and Solaris/Illumos. ErrNotSupported is returned in case is not
-// supported on a particular system.
+// DragonflyBSD and Solaris/Illumos. ErrNotSupported is returned in case a
+// function is not supported on a particular platform.
 package numcpus
 
 import "errors"
