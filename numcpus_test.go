@@ -53,7 +53,8 @@ func testGetconf(t *testing.T, got int, name, getconfWhich string) {
 }
 
 func confName(name string) string {
-	if runtime.GOOS == "netbsd" {
+	switch runtime.GOOS {
+	case "netbsd", "openbsd":
 		return strings.TrimPrefix(name, "_")
 	}
 	return name
