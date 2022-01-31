@@ -52,6 +52,13 @@ func testGetconf(t *testing.T, got int, name, getconfWhich string) {
 	}
 }
 
+func confName(name string) string {
+	if runtime.GOOS == "netbsd" {
+		return strings.TrimPrefix(name, "_")
+	}
+	return name
+}
+
 func TestGetConfigured(t *testing.T) {
 	n, err := numcpus.GetConfigured()
 	if errors.Is(err, numcpus.ErrNotSupported) {
@@ -61,7 +68,7 @@ func TestGetConfigured(t *testing.T) {
 	}
 	t.Logf("Configured = %v", n)
 
-	testGetconf(t, n, "GetConfigured", "_NPROCESSORS_CONF")
+	testGetconf(t, n, "GetConfigured", confName("_NPROCESSORS_CONF"))
 }
 
 func TestGetKernelMax(t *testing.T) {
@@ -93,7 +100,7 @@ func TestGetOnline(t *testing.T) {
 	}
 	t.Logf("Online = %v", n)
 
-	testGetconf(t, n, "GetOnline", "_NPROCESSORS_ONLN")
+	testGetconf(t, n, "GetOnline", confName("_NPROCESSORS_ONLN"))
 }
 
 func TestGetPossible(t *testing.T) {
