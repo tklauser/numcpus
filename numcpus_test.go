@@ -35,13 +35,14 @@ func testGetconf(t *testing.T, got int, name, getconfWhich string) {
 	}
 
 	cmd := exec.Command(getconf, getconfWhich)
-	var out bytes.Buffer
-	cmd.Stdout = &out
+	var outb, errb bytes.Buffer
+	cmd.Stdout = &outb
+	cmd.Stderr = &errb
 	if err := cmd.Run(); err != nil {
-		t.Skipf("failed to invoke getconf: %v", err)
+		t.Skipf("failed to run %v: %v (%v)", cmd, err, strings.TrimSpace(errb.String()))
 	}
 
-	want, err := strconv.ParseInt(strings.TrimSpace(out.String()), 10, 64)
+	want, err := strconv.ParseInt(strings.TrimSpace(outb.String()), 10, 64)
 	if err != nil {
 		t.Skipf("failed to parse getconf output: %v", err)
 	}
