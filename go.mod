@@ -2,4 +2,4 @@ module github.com/tklauser/numcpus
 
 go 1.13
 
-require golang.org/x/sys v0.10.0
+require golang.org/x/sys v0.11.0
