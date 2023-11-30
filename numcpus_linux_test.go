@@ -18,36 +18,38 @@ import "testing"
 
 func TestParseCPURange(t *testing.T) {
 	testCases := []struct {
-		cpus string
-		n    int
+		str     string
+		n       int
+		wantErr bool
 	}{
-		{"", 0},
-		{"0", 1},
-		{"0-1", 2},
-		{"0-7", 8},
-		{"1-7", 7},
-		{"1-15", 15},
-		{"0-3,7", 5},
-		{"0,2-4", 4},
-		{"0,2-4,7", 5},
-		{"0,2-4,7-15", 13},
+		{str: "", n: 0},
+		{str: "0", n: 1},
+		{str: "0-1", n: 2},
+		{str: "0-7", n: 8},
+		{str: "1-7", n: 7},
+		{str: "1-15", n: 15},
+		{str: "0-3,7", n: 5},
+		{str: "0,2-4", n: 4},
+		{str: "0,2-4,7", n: 5},
+		{str: "0,2-4,7-15", n: 13},
+		{str: "0,2-4,6,8-10", n: 8},
+		{str: "invalid", n: 0, wantErr: true},
+		{str: "0-", n: 0, wantErr: true},
+		{str: "0-,1", n: 0, wantErr: true},
+		{str: "0,-3,5", n: 0, wantErr: true},
 	}
 
 	for _, tc := range testCases {
-		n, err := parseCPURange(tc.cpus)
-		if err != nil {
-			t.Errorf("failed to parse CPU range: %v", err)
+		n, err := parseCPURange(tc.str)
+		if !tc.wantErr && err != nil {
+			t.Errorf("parseCPURange(%q) = %v, expected no error", tc.str, err)
+		} else if tc.wantErr && err == nil {
+			t.Errorf("parseCPURange(%q) expected error", tc.str)
 		}
 
 		if n != tc.n {
-			t.Errorf("parseCPURange(%q) = %d, expected %d", tc.cpus, n, tc.n)
+			t.Errorf("parseCPURange(%q) = %d, expected %d", tc.str, n, tc.n)
 		}
-	}
-
-	str := "invalid"
-	_, err := parseCPURange(str)
-	if err == nil {
-		t.Errorf("parseCPURange(%q) unexpectedly succeeded", str)
 	}
 }
 
