@@ -48,16 +48,16 @@ func parseCPURange(cpus string) (int, error) {
 		if len(cpuRange) == 0 {
 			continue
 		}
-		rangeOp := strings.SplitN(cpuRange, "-", 2)
-		first, err := strconv.ParseUint(rangeOp[0], 10, 32)
+		from, to, found := strings.Cut(cpuRange, "-")
+		first, err := strconv.ParseUint(from, 10, 32)
 		if err != nil {
 			return 0, err
 		}
-		if len(rangeOp) == 1 {
+		if !found {
 			n++
 			continue
 		}
-		last, err := strconv.ParseUint(rangeOp[1], 10, 32)
+		last, err := strconv.ParseUint(to, 10, 32)
 		if err != nil {
 			return 0, err
 		}
