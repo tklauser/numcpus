@@ -15,6 +15,7 @@
 package numcpus
 
 import (
+	"fmt"
 	"os"
 	"path/filepath"
 	"strconv"
@@ -59,6 +60,9 @@ func parseCPURange(cpus string) (int, error) {
 		last, err := strconv.ParseUint(to, 10, 32)
 		if err != nil {
 			return 0, err
+		}
+		if last < first {
+			return 0, fmt.Errorf("last CPU in range (%d) less than first (%d)", last, first)
 		}
 		n += int(last - first + 1)
 	}
