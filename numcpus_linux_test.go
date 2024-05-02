@@ -25,6 +25,7 @@ func TestParseCPURange(t *testing.T) {
 		{str: "", n: 0},
 		{str: "0", n: 1},
 		{str: "0-1", n: 2},
+		{str: "1-1", n: 1},
 		{str: "0-7", n: 8},
 		{str: "1-7", n: 7},
 		{str: "1-15", n: 15},
@@ -37,6 +38,7 @@ func TestParseCPURange(t *testing.T) {
 		{str: "0-", n: 0, wantErr: true},
 		{str: "0-,1", n: 0, wantErr: true},
 		{str: "0,-3,5", n: 0, wantErr: true},
+		{str: "0,5-3", n: 0, wantErr: true},
 	}
 
 	for _, tc := range testCases {
