@@ -24,7 +24,14 @@ import (
 	"golang.org/x/sys/unix"
 )
 
-const sysfsCPUBasePath = "/sys/devices/system/cpu"
+const (
+	sysfsCPUBasePath = "/sys/devices/system/cpu"
+
+	offline  = "offline"
+	online   = "online"
+	possible = "possible"
+	present  = "present"
+)
 
 func getFromCPUAffinity() (int, error) {
 	var cpuSet unix.CPUSet
@@ -105,20 +112,20 @@ func getKernelMax() (int, error) {
 }
 
 func getOffline() (int, error) {
-	return readCPURangeWith("offline", countCPURange)
+	return readCPURangeWith(offline, countCPURange)
 }
 
 func getOnline() (int, error) {
 	if n, err := getFromCPUAffinity(); err == nil {
 		return n, nil
 	}
-	return readCPURangeWith("online", countCPURange)
+	return readCPURangeWith(online, countCPURange)
 }
 
 func getPossible() (int, error) {
-	return readCPURangeWith("possible", countCPURange)
+	return readCPURangeWith(possible, countCPURange)
 }
 
 func getPresent() (int, error) {
-	return readCPURangeWith("present", countCPURange)
+	return readCPURangeWith(present, countCPURange)
 }
