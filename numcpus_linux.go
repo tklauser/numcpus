@@ -34,15 +34,16 @@ func getFromCPUAffinity() (int, error) {
 	return cpuSet.Count(), nil
 }
 
-func readCPURange(file string) (int, error) {
+func readCPURangeWith[T any](file string, f func(cpus string) (T, error)) (T, error) {
+	var zero T
 	buf, err := os.ReadFile(filepath.Join(sysfsCPUBasePath, file))
 	if err != nil {
-		return 0, err
+		return zero, err
 	}
-	return parseCPURange(strings.Trim(string(buf), "\n "))
+	return f(strings.Trim(string(buf), "\n "))
 }
 
-func parseCPURange(cpus string) (int, error) {
+func countCPURange(cpus string) (int, error) {
 	n := int(0)
 	for _, cpuRange := range strings.Split(cpus, ",") {
 		if len(cpuRange) == 0 {
@@ -104,20 +105,20 @@ func getKernelMax() (int, error) {
 }
 
 func getOffline() (int, error) {
-	return readCPURange("offline")
+	return readCPURangeWith("offline", countCPURange)
 }
 
 func getOnline() (int, error) {
 	if n, err := getFromCPUAffinity(); err == nil {
 		return n, nil
 	}
-	return readCPURange("online")
+	return readCPURangeWith("online", countCPURange)
 }
 
 func getPossible() (int, error) {
-	return readCPURange("possible")
+	return readCPURangeWith("possible", countCPURange)
 }
 
 func getPresent() (int, error) {
-	return readCPURange("present")
+	return readCPURangeWith("present", countCPURange)
 }

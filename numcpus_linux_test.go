@@ -16,7 +16,7 @@ package numcpus
 
 import "testing"
 
-func TestParseCPURange(t *testing.T) {
+func TestCountCPURange(t *testing.T) {
 	testCases := []struct {
 		str     string
 		n       int
@@ -38,19 +38,20 @@ func TestParseCPURange(t *testing.T) {
 		{str: "0-", n: 0, wantErr: true},
 		{str: "0-,1", n: 0, wantErr: true},
 		{str: "0,-3,5", n: 0, wantErr: true},
+		{str: "42-0", n: 0, wantErr: true},
 		{str: "0,5-3", n: 0, wantErr: true},
 	}
 
 	for _, tc := range testCases {
-		n, err := parseCPURange(tc.str)
+		n, err := countCPURange(tc.str)
 		if !tc.wantErr && err != nil {
-			t.Errorf("parseCPURange(%q) = %v, expected no error", tc.str, err)
+			t.Errorf("countCPURange(%q) = %v, expected no error", tc.str, err)
 		} else if tc.wantErr && err == nil {
-			t.Errorf("parseCPURange(%q) expected error", tc.str)
+			t.Errorf("countCPURange(%q) expected error", tc.str)
 		}
 
 		if n != tc.n {
-			t.Errorf("parseCPURange(%q) = %d, expected %d", tc.str, n, tc.n)
+			t.Errorf("countCPURange(%q) = %d, expected %d", tc.str, n, tc.n)
 		}
 	}
 }
@@ -62,9 +63,9 @@ func TestGetFromCPUAffinity(t *testing.T) {
 	}
 
 	cpus := "online"
-	nSysfs, err := readCPURange(cpus)
+	nSysfs, err := readCPURangeWith(cpus, countCPURange)
 	if err != nil {
-		t.Fatalf("readCPURange(%q): %v", cpus, err)
+		t.Fatalf("counting CPU ranges from %q failed: %v", cpus, err)
 	}
 
 	if nAffinity != nSysfs {
