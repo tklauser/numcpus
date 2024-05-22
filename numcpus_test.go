@@ -82,44 +82,47 @@ func TestGetKernelMax(t *testing.T) {
 	t.Logf("KernelMax = %v", n)
 }
 
-func TestGetOffline(t *testing.T) {
-	n, err := numcpus.GetOffline()
+func testNumAndList(t *testing.T, name string, get func() (int, error), list func() ([]int, error)) int {
+	t.Helper()
+
+	n, err := get()
 	if errors.Is(err, numcpus.ErrNotSupported) {
-		t.Skipf("GetOffline not supported on %s", runtime.GOOS)
+		t.Skipf("Get%s not supported on %s", name, runtime.GOOS)
 	} else if err != nil {
-		t.Fatalf("GetOffline: %v", err)
+		t.Fatalf("Get%s: %v", name, err)
 	}
-	t.Logf("Offline = %v", n)
+	t.Logf("%s = %v", name, n)
+
+	l, err := list()
+	if errors.Is(err, numcpus.ErrNotSupported) {
+		t.Skipf("List%s not supported on %s", name, runtime.GOOS)
+	} else if err != nil {
+		t.Fatalf("List%s: %v", name, err)
+	}
+	t.Logf("List%s = %v", name, l)
+
+	if len(l) != n {
+		t.Errorf("number of online CPUs in list %v doesn't match expected number of CPUs %d", l, n)
+	}
+
+	return n
 }
 
-func TestGetOnline(t *testing.T) {
-	n, err := numcpus.GetOnline()
-	if errors.Is(err, numcpus.ErrNotSupported) {
-		t.Skipf("GetOnline not supported on %s", runtime.GOOS)
-	} else if err != nil {
-		t.Fatalf("GetOnline: %v", err)
-	}
-	t.Logf("Online = %v", n)
+func TestOffline(t *testing.T) {
+	testNumAndList(t, "Offline", numcpus.GetOffline, numcpus.ListOffline)
+}
+
+func TestOnline(t *testing.T) {
+	n := testNumAndList(t, "Online", numcpus.GetOnline, numcpus.ListOnline)
 
 	testGetconf(t, n, "GetOnline", confName("_NPROCESSORS_ONLN"))
+
 }
 
-func TestGetPossible(t *testing.T) {
-	n, err := numcpus.GetPossible()
-	if errors.Is(err, numcpus.ErrNotSupported) {
-		t.Skipf("GetPossible not supported on %s", runtime.GOOS)
-	} else if err != nil {
-		t.Fatalf("GetPossible: %v", err)
-	}
-	t.Logf("Possible = %v", n)
+func TestPossible(t *testing.T) {
+	testNumAndList(t, "Possible", numcpus.GetPossible, numcpus.ListPossible)
 }
 
-func TestGetPresent(t *testing.T) {
-	n, err := numcpus.GetPresent()
-	if errors.Is(err, numcpus.ErrNotSupported) {
-		t.Skipf("GetPresent not supported on %s", runtime.GOOS)
-	} else if err != nil {
-		t.Fatalf("GetPresent: %v", err)
-	}
-	t.Logf("Present = %v", n)
+func TestPresent(t *testing.T) {
+	testNumAndList(t, "Present", numcpus.GetPresent, numcpus.ListPresent)
 }
