@@ -83,6 +83,41 @@ func countCPURange(cpus string) (int, error) {
 	return n, nil
 }
 
+func listCPURange(cpus string) ([]int, error) {
+	// See comment in countCPURange.
+	if cpus == "" {
+		return []int{}, nil
+	}
+
+	list := []int{}
+	for _, cpuRange := range strings.Split(cpus, ",") {
+		if cpuRange == "" {
+			return nil, fmt.Errorf("empty CPU range in CPU string %q", cpus)
+		}
+		from, to, found := strings.Cut(cpuRange, "-")
+		first, err := strconv.ParseUint(from, 10, 32)
+		if err != nil {
+			return nil, err
+		}
+		var last uint64
+		if found {
+			last, err = strconv.ParseUint(to, 10, 32)
+			if err != nil {
+				return nil, err
+			}
+		} else {
+			last = first
+		}
+		if last < first {
+			return nil, fmt.Errorf("last CPU in range (%d) less than first (%d)", last, first)
+		}
+		for cpu := int(first); cpu <= int(last); cpu++ {
+			list = append(list, cpu)
+		}
+	}
+	return list, nil
+}
+
 func getConfigured() (int, error) {
 	d, err := os.Open(sysfsCPUBasePath)
 	if err != nil {
@@ -134,4 +169,20 @@ func getPossible() (int, error) {
 
 func getPresent() (int, error) {
 	return readCPURangeWith(present, countCPURange)
+}
+
+func listOffline() ([]int, error) {
+	return readCPURangeWith(offline, listCPURange)
+}
+
+func listOnline() ([]int, error) {
+	return readCPURangeWith(online, listCPURange)
+}
+
+func listPossible() ([]int, error) {
+	return readCPURangeWith(possible, listCPURange)
+}
+
+func listPresent() ([]int, error) {
+	return readCPURangeWith(present, listCPURange)
 }
