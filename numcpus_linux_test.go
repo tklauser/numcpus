@@ -34,12 +34,18 @@ func TestCountCPURange(t *testing.T) {
 		{str: "0,2-4,7", n: 5},
 		{str: "0,2-4,7-15", n: 13},
 		{str: "0,2-4,6,8-10", n: 8},
+		{str: ",", wantErr: true},
 		{str: "invalid", n: 0, wantErr: true},
-		{str: "0-", n: 0, wantErr: true},
-		{str: "0-,1", n: 0, wantErr: true},
-		{str: "0,-3,5", n: 0, wantErr: true},
-		{str: "42-0", n: 0, wantErr: true},
-		{str: "0,5-3", n: 0, wantErr: true},
+		{str: "-", wantErr: true},
+		{str: ",", wantErr: true},
+		{str: ",1", wantErr: true},
+		{str: "0,", wantErr: true},
+		{str: "0-", wantErr: true},
+		{str: "0,2-", wantErr: true},
+		{str: "0-,1", wantErr: true},
+		{str: "0,-3,5", wantErr: true},
+		{str: "42-0", wantErr: true},
+		{str: "0,5-3", wantErr: true},
 	}
 
 	for _, tc := range testCases {
