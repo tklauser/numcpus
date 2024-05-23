@@ -99,14 +99,14 @@ func listCPURange(cpus string) ([]int, error) {
 		if err != nil {
 			return nil, err
 		}
-		var last uint64
-		if found {
-			last, err = strconv.ParseUint(to, 10, 32)
-			if err != nil {
-				return nil, err
-			}
-		} else {
-			last = first
+		if !found {
+			// range containing a single element
+			list = append(list, int(first))
+			continue
+		}
+		last, err := strconv.ParseUint(to, 10, 32)
+		if err != nil {
+			return nil, err
 		}
 		if last < first {
 			return nil, fmt.Errorf("last CPU in range (%d) less than first (%d)", last, first)
