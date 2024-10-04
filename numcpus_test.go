@@ -85,23 +85,24 @@ func TestGetKernelMax(t *testing.T) {
 func testNumAndList(t *testing.T, name string, get func() (int, error), list func() ([]int, error)) int {
 	t.Helper()
 
-	n, err := get()
-	if errors.Is(err, numcpus.ErrNotSupported) {
-		t.Skipf("Get%s not supported on %s", name, runtime.GOOS)
-	} else if err != nil {
-		t.Fatalf("Get%s: %v", name, err)
+	n, errGet := get()
+	if errors.Is(errGet, numcpus.ErrNotSupported) {
+		t.Logf("Get%s not supported on %s", name, runtime.GOOS)
+	} else if errGet != nil {
+		t.Errorf("Get%s: %v", name, errGet)
+	} else {
+		t.Logf("%s = %v", name, n)
 	}
-	t.Logf("%s = %v", name, n)
 
-	l, err := list()
-	if errors.Is(err, numcpus.ErrNotSupported) {
+	l, errList := list()
+	if errors.Is(errList, numcpus.ErrNotSupported) {
 		t.Skipf("List%s not supported on %s", name, runtime.GOOS)
-	} else if err != nil {
-		t.Fatalf("List%s: %v", name, err)
+	} else if errList != nil {
+		t.Fatalf("List%s: %v", name, errList)
 	}
 	t.Logf("List%s = %v", name, l)
 
-	if len(l) != n {
+	if errGet == nil && len(l) != n {
 		t.Errorf("number of online CPUs in list %v doesn't match expected number of CPUs %d", l, n)
 	}
 
@@ -116,7 +117,6 @@ func TestOnline(t *testing.T) {
 	n := testNumAndList(t, "Online", numcpus.GetOnline, numcpus.ListOnline)
 
 	testGetconf(t, n, "GetOnline", confName("_NPROCESSORS_ONLN"))
-
 }
 
 func TestPossible(t *testing.T) {
