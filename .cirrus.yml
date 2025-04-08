@@ -16,6 +16,8 @@ freebsd_14_task:
   freebsd_instance:
     image_family: freebsd-14-2
   install_script: |
+    pkg update
+    pkg search lang/go
     pkg install -y go
     GOBIN=$PWD/bin go install golang.org/dl/${GO_VERSION}@latest
     bin/${GO_VERSION} download
