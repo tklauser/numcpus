@@ -58,7 +58,7 @@ func countCPURange(cpus string) (int, error) {
 	}
 
 	n := int(0)
-	for _, cpuRange := range strings.Split(cpus, ",") {
+	for cpuRange := range strings.SplitSeq(cpus, ",") {
 		if cpuRange == "" {
 			return 0, fmt.Errorf("empty CPU range in CPU string %q", cpus)
 		}
@@ -90,7 +90,7 @@ func listCPURange(cpus string) ([]int, error) {
 	}
 
 	list := []int{}
-	for _, cpuRange := range strings.Split(cpus, ",") {
+	for cpuRange := range strings.SplitSeq(cpus, ",") {
 		if cpuRange == "" {
 			return nil, fmt.Errorf("empty CPU range in CPU string %q", cpus)
 		}
