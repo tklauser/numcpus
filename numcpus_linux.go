@@ -47,10 +47,12 @@ func readCPURangeWith[T any](file string, f func(cpus string) (T, error)) (T, er
 	if err != nil {
 		return zero, err
 	}
-	return f(strings.Trim(string(buf), "\n "))
+	return f(string(buf))
 }
 
 func countCPURange(cpus string) (int, error) {
+	cpus = strings.Trim(cpus, "\n ")
+
 	// Treat empty file as valid. This might be the case if there are no offline CPUs in which
 	// case /sys/devices/system/cpu/offline is empty.
 	if cpus == "" {
@@ -84,6 +86,8 @@ func countCPURange(cpus string) (int, error) {
 }
 
 func listCPURange(cpus string) ([]int, error) {
+	cpus = strings.Trim(cpus, "\n ")
+
 	// See comment in countCPURange.
 	if cpus == "" {
 		return []int{}, nil
