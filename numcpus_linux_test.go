@@ -32,6 +32,11 @@ func TestCPURange(t *testing.T) {
 			wantList:  []int{},
 		},
 		{
+			str:       "\n",
+			wantCount: 0,
+			wantList:  []int{},
+		},
+		{
 			str:       "0",
 			wantCount: 1,
 			wantList:  []int{0},
@@ -87,6 +92,11 @@ func TestCPURange(t *testing.T) {
 			wantList:  []int{0, 2, 3, 4, 6, 8, 9, 10, 31},
 		},
 		{
+			str:       " 0,2-7\n",
+			wantCount: 7,
+			wantList:  []int{0, 2, 3, 4, 5, 6, 7},
+		},
+		{
 			str:     "invalid",
 			wantErr: true,
 		},
@@ -128,6 +138,10 @@ func TestCPURange(t *testing.T) {
 		},
 		{
 			str:     "0,5-3",
+			wantErr: true,
+		},
+		{
+			str:     "0, 5 - 3",
 			wantErr: true,
 		},
 	}
