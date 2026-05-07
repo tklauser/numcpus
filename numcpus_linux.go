@@ -123,18 +123,13 @@ func listCPURange(cpus string) ([]int, error) {
 }
 
 func getConfigured() (int, error) {
-	d, err := os.Open(sysfsCPUBasePath)
-	if err != nil {
-		return 0, err
-	}
-	defer d.Close()
-	fis, err := d.Readdir(-1)
+	entries, err := os.ReadDir(sysfsCPUBasePath)
 	if err != nil {
 		return 0, err
 	}
 	count := 0
-	for _, fi := range fis {
-		if name := fi.Name(); fi.IsDir() && strings.HasPrefix(name, "cpu") {
+	for _, entry := range entries {
+		if name := entry.Name(); entry.IsDir() && strings.HasPrefix(name, "cpu") {
 			_, err := strconv.ParseInt(name[3:], 10, 64)
 			if err == nil {
 				count++
