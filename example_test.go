@@ -25,6 +25,7 @@ func ExampleGetOffline() {
 	offline, err := numcpus.GetOffline()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "GetOffline: %v\n", err)
+		return
 	}
 	fmt.Printf("# of offline CPUs: %v\n", offline)
 }
@@ -33,6 +34,7 @@ func ExampleGetOnline() {
 	online, err := numcpus.GetOnline()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "GetOnline: %v\n", err)
+		return
 	}
 	fmt.Printf("# of online CPUs: %v\n", online)
 }
@@ -41,6 +43,7 @@ func ExampleGetPossible() {
 	possible, err := numcpus.GetPossible()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "GetPossible: %v\n", err)
+		return
 	}
 	fmt.Printf("# of possible CPUs: %v\n", possible)
 }
@@ -49,6 +52,7 @@ func ExampleGetPresent() {
 	present, err := numcpus.GetPresent()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "GetPresent: %v\n", err)
+		return
 	}
 	fmt.Printf("# of present CPUs: %v\n", present)
 }
