@@ -144,7 +144,7 @@ func getKernelMax() (int, error) {
 	if err != nil {
 		return 0, err
 	}
-	n, err := strconv.ParseInt(strings.Trim(string(buf), "\n "), 10, 32)
+	n, err := strconv.ParseInt(strings.Trim(string(buf), "\n "), 10, 64)
 	if err != nil {
 		return 0, err
 	}
