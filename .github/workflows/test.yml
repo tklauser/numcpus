@@ -147,7 +147,7 @@ jobs:
     - name: Check out code
       uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
 
-    - name: Build and test on DragonFlyBSD ${{ env.DRAGONFLYBSD_RELEASE }}
+    - name: Build and test on DragonFlyBSD ${{ env.DRAGONFLYBSD_RELEASE }}
       uses: vmactions/dragonflybsd-vm@4ba8127bd95c94b66fc4b885e37c99955ba308ea # v1.3.0
       with:
         release: ${{ env.DRAGONFLYBSD_RELEASE }}
