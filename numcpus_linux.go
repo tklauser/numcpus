@@ -119,7 +119,7 @@ func getKernelMax() (int, error) {
 	if err != nil {
 		return 0, err
 	}
-	return int(n), nil
+	return int(n) + 1, nil
 }
 
 func getOffline() (int, error) {
