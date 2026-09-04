@@ -90,7 +90,7 @@ jobs:
       uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
     - name: Build and test on NetBSD ${{ env.NETBSD_RELEASE }}
-      uses: vmactions/netbsd-vm@e7ac71b97abbe8437cec8859a5acf72dfa6a8be0 # v1.4.5
+      uses: vmactions/netbsd-vm@7f23a491dcc69c34195721ab67934917707f84c7 # v1.4.9
       with:
         release: ${{ env.NETBSD_RELEASE }}
         envs: 'GO_VERSION'
