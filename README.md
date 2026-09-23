@@ -1,7 +1,7 @@
 # numcpus
 
 [![Go Reference](https://pkg.go.dev/badge/github.com/tklauser/numcpus.svg)](https://pkg.go.dev/github.com/tklauser/numcpus)
-[![GitHub Action Status](https://github.com/tklauser/numcpus/workflows/Tests/badge.svg)](https://github.com/tklauser/numcpus/actions?query=workflow%3ATests)
+[![GitHub Action Status](https://github.com/tklauser/numcpus/workflows/Tests/badge.svg)](https://github.com/tklauser/numcpus/actions?query=workflow%3ATests+branch%3Amain)
 
 Package numcpus provides information about the number of CPUs in the system.
 
